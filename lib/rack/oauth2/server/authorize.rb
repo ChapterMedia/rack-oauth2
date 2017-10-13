@@ -47,8 +47,10 @@ module Rack
           end
 
           def verify_redirect_uri!(pre_registered, allow_partial_match = false)
+            OAuth2.logger.info("Checking redirect URI")
             @verified_redirect_uri = if redirect_uri.present?
               verified = Array(pre_registered).any? do |_pre_registered_|
+                OAuth2.logger.info("Checking [#{_pre_registered_}] against [#{redirect_uri}]")
                 if allow_partial_match
                   Util.uri_match?(_pre_registered_, redirect_uri)
                 else
